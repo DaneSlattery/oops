@@ -42,7 +42,58 @@ class PizzaGrid:
     def total_tomatoes(self):
         return self._num_tomatoes
 
-class MagicPizzaSlicer:
+class PizzaBase:
 
-    def __init__(self, pizza_grid):
+    def __init__(self, pizza_grid, minc, maxc):
         self._grid = pizza_grid
+        self._minc = minc
+        self._maxc = maxc
+
+    def process(self, new_grid=None):
+        raise NotImplementedError()
+
+    def get_result(self):
+        raise NotImplementedError()
+
+    def _validate_slice(self, slice_):
+        if slice_[1] >= self._minc and slice_[2] >= self._minc:
+            return True
+        else:
+            return False
+
+# Partitions pizza into uniform slices, and picks the best distribution in spec.
+class NaivePizzaSlicer(PizzaBase):
+
+    def __init__(self, pizza_grid, minc, maxc):
+        super().__init__(pizza_grid, minc, maxc)
+
+    def process(self, new_grid=None):
+        if new_grid:
+            self._grid = new_grid
+
+        subsets = [[[] for x in range(self._maxc)] for y in range(self._maxc)]
+        for k in range(1, self._maxc + 1):
+            for i in range(0, self._grid.rows - k + 1, k):
+                for j in range(1, self._maxc // k + 1):
+                    for m in range(0, self._grid.columns - j + 1, j):
+                        #print(k, ' ', j)
+                        subsets[k-1][j-1].append(self._grid.get_slice(i, m, i + k - 1, m + j - 1))
+
+        max_ = 0
+        set_ = None
+        for i, row in enumerate(subsets):
+            for j, col in enumerate(row):
+                sum_ = 0
+                tmp = []
+                for k, block in enumerate(col):
+                    if self._validate_slice(block):
+                        sum_ += block[1] + block[2]
+                        tmp.append(block)
+                if sum_ > max_:
+                    max_ = sum_
+                    set_ = tmp
+
+#class MagicPizzaSlicer(PizzaBase):
+#
+#    def __init__(self, pizza_grid):
+#        pass
