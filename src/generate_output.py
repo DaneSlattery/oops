@@ -10,7 +10,7 @@ class GenerateOutput:
 
     def formatoutput(self):
         self.outputstring = str(self.S) + '\n'
-        for x in range(0,self.S):
+        for x in range(0, self.S):
             self.outputstring += ' '.join(str(e) for e in self.slices[x]) + '\n'
 
     def writeoutput(self):

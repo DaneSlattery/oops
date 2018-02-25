@@ -2,7 +2,7 @@ from read_data_in import InputData
 from generate_output import GenerateOutput
 from visualiser import Visualiser
 from scorecalculator import ScoreCalc
-
+from pizza import PizzaGrid, NaivePizzaSlicer
 
 def main():
 # input data
@@ -12,9 +12,13 @@ def main():
 
 # assume the slices piece is valid
 # magic code goes here
-    slicedSmallPizza = [7, [[0, 0, 1, 1], [0, 3, 1, 4], [0, 5, 1, 6],
-                            [2, 0, 3, 1], [2, 2, 3, 3], [2, 4, 3, 5],
-                            [4, 5, 5, 6]]]
+    smallPizzaGrid = PizzaGrid(smallData.R, smallData.C, smallData.Toppings)
+    Slicer = NaivePizzaSlicer(smallPizzaGrid, smallData.L, smallData.H)
+    slicedSmallPizza = Slicer.process()
+    slicedSmallPizza = [len(slicedSmallPizza), slicedSmallPizza]
+
+    print(slicedSmallPizza)
+
 # visualise slices
     Visualiser(smallData, slicedSmallPizza[1])
 
