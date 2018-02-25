@@ -37,5 +37,4 @@ class InputData:
         for x in self.inputlist:
             self.Toppings += x.strip('\n')
 
-        print('Pizza Data: ' + self.Toppings)
 

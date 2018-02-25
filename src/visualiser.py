@@ -5,6 +5,7 @@ class Visualiser:
         self.printlist = []
         self.formatdata()
         self.drawblocks()
+        self.printdata()
 
     def appendZero(self):
         rowlist = []
