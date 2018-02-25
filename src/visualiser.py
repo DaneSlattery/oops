@@ -43,7 +43,7 @@ class Visualiser:
                 for col in range(c1*2, c2*2 + 2 + 1):
                     if row in [r1*2, r2*2 + 2]:
                         self.printlist[row][col] = '-'
-                    if col in [c1*c2, c2*2+2]:
+                    if col in [c1*2, c2*2 + 2]:
                         self.printlist[row][col] = '|'
 
 
