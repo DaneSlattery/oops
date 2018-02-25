@@ -22,13 +22,13 @@ class InputData:
     def extract_initial_data(self):
         self.inputlist[0] = self.inputlist[0].strip('\n')
         firstline = self.inputlist[0].split()
-        self.R = firstline[0]
+        self.R = int(firstline[0])
         print(self.R, 'rows')
-        self.C = firstline[1]
+        self.C = int(firstline[1])
         print(self.C, 'columns')
-        self.L = firstline[2]
+        self.L = int(firstline[2])
         print(self.L, 'min ingredient cells in a slice')
-        self.H = firstline[3]
+        self.H = int(firstline[3])
         print(self.H, 'max total cells in a slice')
         del self.inputlist[0]
 
@@ -39,6 +39,3 @@ class InputData:
 
         print('Pizza Data: ' + self.Toppings)
 
-
-inputFile = '../datasets/example.in'
-example = InputData(inputFile)
