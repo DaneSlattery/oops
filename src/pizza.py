@@ -24,7 +24,7 @@ class PizzaGrid:
         chunk = [row[c0:c1+1] for row in self._rowcols[r0:r1+1]]
         flat = [x for sublist in chunk for x in sublist]
         as_string = ''.join(flat)
-        return (as_string, as_string.count('M'), as_string.count('T'))
+        return (as_string, as_string.count('M'), as_string.count('T'), r0, c0, r1, c1)
 
     @property
     def rows(self):
@@ -66,6 +66,7 @@ class NaivePizzaSlicer(PizzaBase):
 
     def __init__(self, pizza_grid, minc, maxc):
         super().__init__(pizza_grid, minc, maxc)
+        self._set = None
 
     def process(self, new_grid=None):
         if new_grid:
@@ -80,18 +81,28 @@ class NaivePizzaSlicer(PizzaBase):
                         subsets[k-1][j-1].append(self._grid.get_slice(i, m, i + k - 1, m + j - 1))
 
         max_ = 0
-        set_ = None
         for i, row in enumerate(subsets):
             for j, col in enumerate(row):
                 sum_ = 0
-                tmp = []
+                set_ = []
                 for k, block in enumerate(col):
                     if self._validate_slice(block):
                         sum_ += block[1] + block[2]
-                        tmp.append(block)
+                        set_.append(block)
                 if sum_ > max_:
                     max_ = sum_
-                    set_ = tmp
+                    self._set = set_
+        return self.get_result()
+
+    def get_result(self):
+        result = []
+        for block in self._set:
+            result.append((block[3], block[4], block[5], block[6]))
+        return result
+
+#pizza_grid = PizzaGrid(6, 7, 'TMMMTTTMMMMTMMTTMTTMTTMMTMMMTTTTTTMTTTTTTM')
+#slicer = NaivePizzaSlicer(pizza_grid, 1, 5)
+#print(slicer.process())
 
 #class MagicPizzaSlicer(PizzaBase):
 #
